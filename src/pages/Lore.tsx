@@ -27,6 +27,23 @@ const LORE: LoreEntry[] = [
       'It was a mistake that would shape the future of Buffooncraft for many years to come.',
     ],
   },
+  {
+    id: 'folley-mines',
+    title: 'The Folley Mines',
+    location: 'The Folley Mines',
+    era: 'Season 3',
+    status: 'complete',
+    paragraphs: [
+      'Realising the consequences of the Buffoons\' greatest mistake, Maryn used the last of her power to send them back through time. Unaware of what had happened, the Buffoons awoke deep beneath Chronicle in the ancient Folley Mines, long before the town\'s downfall.',
+      'Trapped beneath the surface, they uncovered the forgotten history of the mines and the darkness that had taken root within them.',
+      'Among those they encountered was the Postmaster, a man driven to madness by an ancient curse. Tormented by a malevolent force, he believed himself responsible for the death of his wife and the horrors that had consumed the mines. Though feared by many, the Buffoons discovered he was not evil, but another victim of a far greater power.',
+      'That power was Entropy.',
+      'A being of pure corruption, Entropy was the true master behind the Overseers, manipulating events from the shadows long before Chronicle ever existed. As the Buffoons ventured deeper into the mines, they faced countless trials in an attempt to stop the growing darkness before it could consume the future.',
+      'In the end, they failed.',
+      'Entropy was never defeated, and history continued exactly as it always had. The Buffoons unknowingly fulfilled the very events that would lead to the fall of Chronicle, creating a closed time loop between the stories of Chronicle and The Folley Mines.',
+      'The past could not be changed. It had already happened.',
+    ],
+  },
 ];
 
 const STATUS_STYLES: Record<LoreEntry['status'], { label: string; classes: string }> = {
