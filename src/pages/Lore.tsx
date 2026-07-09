@@ -1,5 +1,4 @@
-import { useState } from 'react';
-import { BookOpen, ChevronDown, ChevronUp, Scroll } from 'lucide-react';
+import { BookOpen, Scroll } from 'lucide-react';
 
 interface LoreEntry {
   id: string;
@@ -62,18 +61,37 @@ const LORE: LoreEntry[] = [
       'When the Overseers finally returned, they would do so armed not only with ancient power, but with the knowledge needed to tear the Buffoons apart from within.',
     ],
   },
+  {
+    id: 'gilded-kingdom',
+    title: 'The Gilded Kingdom',
+    location: 'The Gilded Kingdom',
+    era: 'Season 5',
+    status: 'complete',
+    paragraphs: [
+      'Drawn far from the ruins of Chronicle, the Buffoons journeyed to the distant Gilded Kingdom, a land of immense wealth, towering castles, and ancient secrets. Hidden within the heart of an abandoned fortress rested the legendary Gilded Throne.',
+      'Believing it to be a symbol of leadership, the Buffoons took turns sitting upon the throne, each ruling the kingdom for a short time while appointing trusted advisers to help govern. To them, it was simply another challenge.',
+      'But the throne had never been a reward.',
+      'It was a trap.',
+      'Forged by the Overseers long ago, the Gilded Throne was designed to corrupt those who sought power. With every new ruler, ambition grew stronger, trust began to fade, and the unity that had carried the Buffoons through every previous trial slowly started to fracture.',
+      'Above them, the world itself was under the watchful gaze of the Moon. More than a celestial body, it had become an ever-present eye, silently observing every decision the Buffoons made and feeding the corruption that spread throughout the kingdom.',
+      'Realising there was only one way to end the curse, the Buffoons launched an impossible assault on the Moon itself.',
+      'Their journey ended among the stars, where they succeeded in destroying the Moon and breaking its hold over the world.',
+      'Yet victory was incomplete.',
+      'Amid the chaos, the Gilded Throne disappeared without a trace.',
+      'Whether it was destroyed, hidden, or simply waiting for another ruler to claim it, nobody knows.',
+      'Only time will reveal whether leaving the throne behind was the Buffoons\' greatest mistake... or their greatest mercy.',
+    ],
+  },
 ];
 
 const STATUS_STYLES: Record<LoreEntry['status'], { label: string; classes: string }> = {
-  complete: { label: 'Concluded',  classes: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/25' },
-  ongoing:  { label: 'Ongoing',    classes: 'bg-amber-500/10  text-amber-400  border-amber-500/25'  },
-  unknown:  { label: 'Unknown',    classes: 'bg-slate-500/10  text-slate-400  border-slate-500/25'  },
+  complete: { label: 'Concluded', classes: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/25' },
+  ongoing:  { label: 'Ongoing',   classes: 'bg-amber-500/10  text-amber-400  border-amber-500/25'  },
+  unknown:  { label: 'Unknown',   classes: 'bg-slate-500/10  text-slate-400  border-slate-500/25'  },
 };
 
-function LoreCard({ entry, index }: { entry: LoreEntry; index: number }) {
-  const [open, setOpen] = useState(index === 0);
+function LoreCard({ entry }: { entry: LoreEntry }) {
   const status = STATUS_STYLES[entry.status];
-  const isFirst = index === 0;
 
   return (
     <div className="relative">
@@ -81,66 +99,34 @@ function LoreCard({ entry, index }: { entry: LoreEntry; index: number }) {
       <div className="absolute left-0 top-6 w-8 h-px bg-gradient-to-r from-amber-500/40 to-transparent" />
 
       {/* Spine dot */}
-      <div
-        className={`absolute -left-[1px] top-4 w-3 h-3 rounded-full border-2 transition-all duration-300 ${
-          open
-            ? 'bg-amber-400 border-amber-400 shadow-[0_0_12px_3px_rgba(251,191,36,0.4)]'
-            : 'bg-slate-700 border-slate-600'
-        }`}
-      />
+      <div className="absolute -left-[1px] top-4 w-3 h-3 rounded-full border-2 bg-amber-400 border-amber-400 shadow-[0_0_12px_3px_rgba(251,191,36,0.35)]" />
 
       {/* Card */}
-      <div className="ml-10">
-        <button
-          onClick={() => setOpen(o => !o)}
-          className={`w-full text-left group rounded-2xl border transition-all duration-300 overflow-hidden ${
-            open
-              ? 'bg-slate-900/80 border-amber-500/20 shadow-lg shadow-amber-900/10'
-              : 'bg-slate-900/40 border-white/6 hover:border-amber-500/15 hover:bg-slate-900/60'
-          }`}
-        >
-          <div className="flex items-start justify-between gap-4 px-6 py-5">
-            <div className="flex items-start gap-4 min-w-0">
-              <div className={`mt-0.5 flex-shrink-0 w-9 h-9 rounded-xl flex items-center justify-center transition-colors ${
-                open ? 'bg-amber-500/15 text-amber-400' : 'bg-white/5 text-slate-500 group-hover:text-amber-500/70'
-              }`}>
-                <Scroll className="w-4 h-4" />
-              </div>
-              <div className="min-w-0">
-                <div className="flex items-center gap-2 flex-wrap mb-1">
-                  {entry.era && (
-                    <span className="text-xs font-semibold tracking-widest text-amber-500/70 uppercase">{entry.era}</span>
-                  )}
-                </div>
-                <h3 className="text-lg font-bold text-white leading-snug">{entry.title}</h3>
-                <p className="text-sm text-slate-500 mt-0.5">{entry.location}</p>
-              </div>
+      <div className="ml-10 bg-slate-900/70 border border-amber-500/15 rounded-2xl shadow-lg shadow-amber-900/5 overflow-hidden">
+        {/* Header */}
+        <div className="flex items-start justify-between gap-4 px-6 pt-6 pb-5 border-b border-white/5">
+          <div className="flex items-start gap-4 min-w-0">
+            <div className="mt-0.5 flex-shrink-0 w-9 h-9 rounded-xl bg-amber-500/12 text-amber-400 flex items-center justify-center">
+              <Scroll className="w-4 h-4" />
             </div>
-            <div className="flex items-center gap-3 flex-shrink-0 pt-1">
-              <span className={`hidden sm:inline-flex text-xs font-semibold px-2.5 py-1 rounded-full border ${status.classes}`}>
-                {status.label}
-              </span>
-              {open ? (
-                <ChevronUp className="w-4 h-4 text-slate-500" />
-              ) : (
-                <ChevronDown className="w-4 h-4 text-slate-500" />
+            <div className="min-w-0">
+              {entry.era && (
+                <span className="text-xs font-semibold tracking-widest text-amber-500/70 uppercase">{entry.era}</span>
               )}
+              <h3 className="text-lg font-bold text-white leading-snug mt-0.5">{entry.title}</h3>
+              <p className="text-sm text-slate-500 mt-0.5">{entry.location}</p>
             </div>
           </div>
-        </button>
+          <span className={`hidden sm:inline-flex flex-shrink-0 mt-1 text-xs font-semibold px-2.5 py-1 rounded-full border ${status.classes}`}>
+            {status.label}
+          </span>
+        </div>
 
-        {/* Expanded content */}
-        <div
-          className={`overflow-hidden transition-all duration-500 ease-in-out ${
-            open ? 'max-h-[2000px] opacity-100' : 'max-h-0 opacity-0'
-          }`}
-        >
-          <div className="mx-1 px-6 pt-2 pb-7 bg-slate-900/40 border border-t-0 border-amber-500/10 rounded-b-2xl space-y-4">
-            <div className="w-12 h-px bg-amber-500/25 mb-5" />
-            {entry.paragraphs.map((p, i) => (
-              <p key={i} className="text-slate-300 leading-relaxed text-[15px]">{p}</p>
-            ))}
-          </div>
+        {/* Body */}
+        <div className="px-6 py-6 space-y-4">
+          {entry.paragraphs.map((p, i) => (
+            <p key={i} className="text-slate-300 leading-relaxed text-[15px]">{p}</p>
+          ))}
         </div>
       </div>
     </div>
@@ -153,7 +139,6 @@ export default function Lore() {
       {/* Header */}
       <div className="relative py-20 lg:py-28 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-slate-900 to-slate-950" />
-        {/* Ambient glow */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[350px] bg-amber-500/6 rounded-full blur-3xl pointer-events-none" />
         <div className="absolute bottom-0 right-1/4 w-[400px] h-[200px] bg-crimson-500/5 rounded-full blur-3xl pointer-events-none" />
 
@@ -171,22 +156,22 @@ export default function Lore() {
         </div>
       </div>
 
-      {/* Timeline tree */}
+      {/* Timeline */}
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pb-28">
         <div className="relative">
           {/* Vertical spine */}
           <div className="absolute left-0 top-0 bottom-0 w-px bg-gradient-to-b from-amber-500/40 via-amber-500/10 to-transparent" />
 
-          <div className="space-y-6 pl-1">
-            {LORE.map((entry, i) => (
-              <LoreCard key={entry.id} entry={entry} index={i} />
+          <div className="space-y-10 pl-1">
+            {LORE.map((entry) => (
+              <LoreCard key={entry.id} entry={entry} />
             ))}
 
             {/* Future entries hint */}
             <div className="relative">
               <div className="absolute -left-[1px] top-4 w-3 h-3 rounded-full border-2 border-slate-700 bg-slate-800" />
               <div className="absolute left-0 top-6 w-8 h-px bg-gradient-to-r from-slate-700/40 to-transparent" />
-              <div className="ml-10 px-6 py-5 rounded-2xl border border-dashed border-white/8 bg-transparent">
+              <div className="ml-10 px-6 py-5 rounded-2xl border border-dashed border-white/8">
                 <p className="text-slate-600 text-sm italic">More chapters are yet to be written...</p>
               </div>
             </div>
