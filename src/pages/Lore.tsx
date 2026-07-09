@@ -29,6 +29,23 @@ const LORE: LoreEntry[] = [
     ],
   },
   {
+    id: 'folley-mines',
+    title: 'The Folley Mines',
+    location: 'The Folley Mines',
+    era: 'Season 3',
+    status: 'complete',
+    paragraphs: [
+      'Realising the consequences of the Buffoons\' greatest mistake, Maryn used the last of her power to send them back through time. Unaware of what had happened, the Buffoons awoke deep beneath Chronicle in the ancient Folley Mines, long before the town\'s downfall.',
+      'Trapped beneath the surface, they uncovered the forgotten history of the mines and the darkness that had taken root within them.',
+      'Among those they encountered was the Postmaster, a man driven to madness by an ancient curse. Tormented by a malevolent force, he believed himself responsible for the death of his wife and the horrors that had consumed the mines. Though feared by many, the Buffoons discovered he was not evil, but another victim of a far greater power.',
+      'That power was Entropy.',
+      'A being of pure corruption, Entropy was the true master behind the Overseers, manipulating events from the shadows long before Chronicle ever existed. As the Buffoons ventured deeper into the mines, they faced countless trials in an attempt to stop the growing darkness before it could consume the future.',
+      'In the end, they failed.',
+      'Entropy was never defeated, and history continued exactly as it always had. The Buffoons unknowingly fulfilled the very events that would lead to the fall of Chronicle, creating a closed time loop between the stories of Chronicle and The Folley Mines.',
+      'The past could not be changed. It had already happened.',
+    ],
+  },
+  {
     id: 'buffoonskies',
     title: 'BuffoonSkies',
     location: 'The Skylands',
@@ -49,23 +66,6 @@ const LORE: LoreEntry[] = [
       'Today, her final resting place lies within Port Droste, where the Buffoons can still visit the friend who guided them through their darkest days.',
       'With Maryn\'s sacrifice, the long-running story of Chronicle, The Folley Mines, and the Overseers finally came to an end.',
       'Or so the Buffoons believed.',
-    ],
-  },
-  {
-    id: 'folley-mines',
-    title: 'The Folley Mines',
-    location: 'The Folley Mines',
-    era: 'Season 3',
-    status: 'complete',
-    paragraphs: [
-      'Realising the consequences of the Buffoons\' greatest mistake, Maryn used the last of her power to send them back through time. Unaware of what had happened, the Buffoons awoke deep beneath Chronicle in the ancient Folley Mines, long before the town\'s downfall.',
-      'Trapped beneath the surface, they uncovered the forgotten history of the mines and the darkness that had taken root within them.',
-      'Among those they encountered was the Postmaster, a man driven to madness by an ancient curse. Tormented by a malevolent force, he believed himself responsible for the death of his wife and the horrors that had consumed the mines. Though feared by many, the Buffoons discovered he was not evil, but another victim of a far greater power.',
-      'That power was Entropy.',
-      'A being of pure corruption, Entropy was the true master behind the Overseers, manipulating events from the shadows long before Chronicle ever existed. As the Buffoons ventured deeper into the mines, they faced countless trials in an attempt to stop the growing darkness before it could consume the future.',
-      'In the end, they failed.',
-      'Entropy was never defeated, and history continued exactly as it always had. The Buffoons unknowingly fulfilled the very events that would lead to the fall of Chronicle, creating a closed time loop between the stories of Chronicle and The Folley Mines.',
-      'The past could not be changed. It had already happened.',
     ],
   },
   {
@@ -135,7 +135,6 @@ const STATUS_STYLES: Record<LoreEntry['status'], { label: string; classes: strin
 
 function MainCard({ entry }: { entry: LoreEntry }) {
   const status = STATUS_STYLES[entry.status];
-  const isMiniLinked = entry.id === 'port-droste';
 
   return (
     <div className="relative">
@@ -160,10 +159,10 @@ function MainCard({ entry }: { entry: LoreEntry }) {
             <span className={`hidden sm:inline-flex text-xs font-semibold px-2.5 py-1 rounded-full border ${status.classes}`}>
               {status.label}
             </span>
-            {isMiniLinked && (
+            {entry.id === 'port-droste' && (
               <a
                 href="#buffoonskies"
-                className="hidden sm:inline-flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1 rounded-full border bg-sky-500/10 text-sky-400 border-sky-500/25 hover:bg-sky-500/20 transition-colors"
+                className="hidden sm:inline-flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1 rounded-full border bg-sky-500/10 text-sky-400 border-sky-500/30 hover:bg-sky-500/20 transition-colors"
               >
                 <MoveUpRight className="w-3 h-3" />
                 BuffoonSkies
@@ -171,7 +170,6 @@ function MainCard({ entry }: { entry: LoreEntry }) {
             )}
           </div>
         </div>
-
         <div className="px-6 py-6 space-y-4">
           {entry.paragraphs.map((p, i) => (
             <p key={i} className="text-slate-300 leading-relaxed text-[15px]">{p}</p>
@@ -186,71 +184,80 @@ function MiniCard({ entry }: { entry: LoreEntry }) {
   const status = STATUS_STYLES[entry.status];
 
   return (
-    <div id="buffoonskies" className="relative">
-      {/* Branch arm — horizontal dashed line from the spine across to the card */}
-      <div className="absolute left-0 top-8 flex items-center">
-        {/* short solid piece from spine */}
-        <div className="w-4 h-px bg-sky-500/50" />
-        {/* dashed extension */}
-        <div className="flex gap-[3px] items-center">
-          {Array.from({ length: 12 }).map((_, i) => (
-            <div key={i} className="w-2 h-px bg-sky-500/30" />
-          ))}
+    /* Outer row: left gutter holds the spine + branch arm; right holds the card */
+    <div id="buffoonskies" className="relative flex items-start gap-0">
+
+      {/* ── Left column: spine dot + branch arm ── */}
+      <div className="relative flex-none" style={{ width: '8rem' }}>
+        {/* Sky glow dot on the main spine */}
+        <div className="absolute -left-[1px] top-5 w-4 h-4 rounded-full bg-sky-400 border-[3px] border-sky-300 shadow-[0_0_18px_6px_rgba(56,189,248,0.5)]" />
+
+        {/* Horizontal branch arm */}
+        <div className="absolute left-3 top-[27px] right-0 flex items-center">
+          {/* thick colored line */}
+          <div className="flex-1 h-[3px] rounded-full bg-gradient-to-r from-sky-400 via-sky-400/80 to-sky-400/50" />
+          {/* arrowhead */}
+          <div
+            className="flex-none ml-[-1px]"
+            style={{
+              width: 0,
+              height: 0,
+              borderTop: '6px solid transparent',
+              borderBottom: '6px solid transparent',
+              borderLeft: '9px solid rgba(56,189,248,0.7)',
+            }}
+          />
         </div>
-        {/* arrowhead */}
-        <div className="w-0 h-0 border-y-[4px] border-y-transparent border-l-[6px] border-l-sky-400/60" />
+
+        {/* Label below the arm */}
+        <div className="absolute left-3 top-[38px] whitespace-nowrap">
+          <span className="text-[9px] font-bold tracking-widest text-sky-500/50 uppercase">Branch</span>
+        </div>
       </div>
 
-      {/* Branch dot on spine */}
-      <div className="absolute -left-[1px] top-6 w-3 h-3 rounded-full border-2 bg-sky-400/80 border-sky-400 shadow-[0_0_10px_3px_rgba(56,189,248,0.3)]" />
-
-      {/* Card — indented further right */}
-      <div className="ml-20">
-        {/* Upward arrow label pointing back to Port Droste */}
-        <div className="flex items-center gap-1.5 mb-2 ml-1">
-          <div className="flex flex-col items-center gap-[2px]">
-            <div className="w-px h-3 bg-sky-500/40" />
-            <div className="w-0 h-0 border-x-[3px] border-x-transparent border-b-[5px] border-b-sky-400/50 -mt-[2px]" />
-          </div>
-          <span className="text-[11px] font-semibold tracking-wider text-sky-500/60 uppercase">Branched from Season 6</span>
+      {/* ── Right column: card ── */}
+      <div className="flex-1 min-w-0 pt-1">
+        {/* "Branched from Season 6" banner above card */}
+        <div className="flex items-center gap-2 mb-2 ml-1">
+          <GitBranch className="w-3.5 h-3.5 text-sky-400/60" />
+          <span className="text-[10px] font-bold tracking-widest text-sky-400/60 uppercase">
+            Branched from Season 6 — {entry.eraLabel}
+          </span>
         </div>
 
-        <div className="bg-slate-900/80 border border-sky-500/20 rounded-2xl shadow-lg shadow-sky-900/5 overflow-hidden">
-          <div className="flex items-start justify-between gap-4 px-6 pt-6 pb-5 border-b border-sky-500/8">
-            <div className="flex items-start gap-4 min-w-0">
-              <div className="mt-0.5 flex-shrink-0 w-9 h-9 rounded-xl bg-sky-500/12 text-sky-400 flex items-center justify-center">
+        <div className="bg-slate-900/80 border-2 border-sky-500/30 rounded-2xl shadow-xl shadow-sky-900/10 overflow-hidden">
+          {/* Sky accent stripe at top */}
+          <div className="h-1 bg-gradient-to-r from-sky-500/60 via-sky-400/40 to-transparent" />
+
+          <div className="flex items-start justify-between gap-4 px-5 pt-5 pb-4 border-b border-sky-500/10">
+            <div className="flex items-start gap-3 min-w-0">
+              <div className="mt-0.5 flex-none w-9 h-9 rounded-xl bg-sky-500/15 text-sky-400 flex items-center justify-center">
                 <GitBranch className="w-4 h-4" />
               </div>
               <div className="min-w-0">
                 <div className="flex items-center gap-2 flex-wrap">
-                  <span className="text-xs font-semibold tracking-widest text-sky-500/70 uppercase">{entry.era}</span>
-                  <span className="text-[10px] font-medium text-sky-600/60 border border-sky-500/20 rounded-full px-2 py-0.5">
-                    {entry.eraLabel}
-                  </span>
+                  <span className="text-xs font-bold tracking-widest text-sky-400/80 uppercase">{entry.era}</span>
                 </div>
                 <h3 className="text-lg font-bold text-white leading-snug mt-0.5">{entry.title}</h3>
                 <p className="text-sm text-slate-500 mt-0.5">{entry.location}</p>
               </div>
             </div>
-            <span className={`hidden sm:inline-flex flex-shrink-0 mt-1 text-xs font-semibold px-2.5 py-1 rounded-full border ${status.classes}`}>
+            <span className={`hidden sm:inline-flex flex-none mt-1 text-xs font-semibold px-2.5 py-1 rounded-full border ${status.classes}`}>
               {status.label}
             </span>
           </div>
 
-          <div className="px-6 py-6 space-y-4">
+          <div className="px-5 py-5 space-y-4">
             {entry.paragraphs.map((p, i) => (
               <p key={i} className="text-slate-300 leading-relaxed text-[15px]">{p}</p>
             ))}
           </div>
         </div>
 
-        {/* Downward arrow label pointing toward Folley Mines continuation */}
-        <div className="flex items-center gap-1.5 mt-2 ml-1">
-          <div className="flex flex-col items-center gap-[2px]">
-            <div className="w-px h-3 bg-sky-500/40" />
-            <div className="w-0 h-0 border-x-[3px] border-x-transparent border-t-[5px] border-t-sky-400/50 mt-[0px]" />
-          </div>
-          <span className="text-[11px] font-semibold tracking-wider text-sky-500/60 uppercase">Timeline resumes below</span>
+        {/* "Returns to main timeline" note below */}
+        <div className="flex items-center gap-2 mt-2 ml-1">
+          <div className="w-3.5 h-[2px] rounded bg-sky-500/30" />
+          <span className="text-[10px] font-bold tracking-widest text-sky-500/40 uppercase">Returns to main timeline</span>
         </div>
       </div>
     </div>
@@ -264,7 +271,6 @@ export default function Lore() {
       <div className="relative py-20 lg:py-28 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-slate-900 to-slate-950" />
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[350px] bg-amber-500/6 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute bottom-0 right-1/4 w-[400px] h-[200px] bg-crimson-500/5 rounded-full blur-3xl pointer-events-none" />
 
         <div className="relative max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-amber-500/10 border border-amber-500/20 mb-6 shadow-lg shadow-amber-900/20">
@@ -283,8 +289,8 @@ export default function Lore() {
       {/* Timeline */}
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pb-28">
         <div className="relative">
-          {/* Vertical spine */}
-          <div className="absolute left-0 top-0 bottom-0 w-px bg-gradient-to-b from-amber-500/40 via-amber-500/10 to-transparent" />
+          {/* Vertical spine — only covers the main (non-mini) entries */}
+          <div className="absolute left-0 top-0 bottom-0 w-px bg-gradient-to-b from-amber-500/40 via-amber-500/15 to-transparent" />
 
           <div className="space-y-10 pl-1">
             {LORE.map((entry) =>
