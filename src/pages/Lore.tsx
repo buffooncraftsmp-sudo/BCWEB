@@ -44,6 +44,24 @@ const LORE: LoreEntry[] = [
       'The past could not be changed. It had already happened.',
     ],
   },
+  {
+    id: 'time-of-peace',
+    title: 'A Time of Peace',
+    location: 'The World',
+    era: 'Season 4',
+    status: 'complete',
+    paragraphs: [
+      'For a time, the world was quiet.',
+      'With the horrors of Chronicle and the Folley Mines behind them, the Buffoons enjoyed a long period of peace. Great cities rose across the landscape, ambitious projects flourished, and life returned to normal. There were no ancient evils to battle, no mysterious dungeons to conquer, and no spirits calling for their aid.',
+      'The Buffoons believed their greatest challenges were behind them.',
+      'But they were wrong.',
+      'Hidden beyond the reach of the world, the Overseers had not been defeated. They had simply been watching.',
+      'From the shadows, they observed every decision the Buffoons made, every strength they displayed, and every weakness they revealed. They learned how the Buffoons fought, how they worked together, and, most importantly, what they valued most.',
+      'The peace was never an end.',
+      'It was merely the silence before the storm.',
+      'When the Overseers finally returned, they would do so armed not only with ancient power, but with the knowledge needed to tear the Buffoons apart from within.',
+    ],
+  },
 ];
 
 const STATUS_STYLES: Record<LoreEntry['status'], { label: string; classes: string }> = {
