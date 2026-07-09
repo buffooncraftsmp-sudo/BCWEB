@@ -82,6 +82,24 @@ const LORE: LoreEntry[] = [
       'Only time will reveal whether leaving the throne behind was the Buffoons\' greatest mistake... or their greatest mercy.',
     ],
   },
+  {
+    id: 'port-droste',
+    title: 'Port Droste',
+    location: 'Port Droste',
+    era: 'Season 6',
+    status: 'ongoing',
+    paragraphs: [
+      'The story of Port Droste is still being written.',
+      'The Buffoons arrived at the remains of an ancient port settlement, long abandoned after a catastrophic storm swept through the region. Once a thriving crossroads of civilisation, Port Droste had been home to Humans, Giants, Fairies, Elytrians, and many other Origins, all living together before their sudden disappearance.',
+      'As the Buffoons explored the ruined town, they uncovered fragments of a forgotten history buried beneath the wreckage. Strange relics, abandoned buildings, and ancient records hinted that the Great Storm was far more than a natural disaster.',
+      'Before long, they encountered a mysterious figure known only as R.',
+      'Small in stature yet seemingly possessing knowledge far beyond any ordinary traveller, R has guided the Buffoons through the mysteries of Port Droste. Whether he is friend, foe, or something else entirely remains unknown.',
+      'Following R\'s guidance, the Buffoons discovered the Grand Mirror Hall, where an ancient tree acts as a gateway between worlds. Stepping through its mirrors has led them into strange dimensions unlike anything they have encountered before, each revealing new pieces of a much larger mystery.',
+      'For now, the truth remains hidden.',
+      'The fate of Port Droste, the purpose of the Mirror Worlds, and R\'s true intentions are still unknown.',
+      'The story continues...',
+    ],
+  },
 ];
 
 const STATUS_STYLES: Record<LoreEntry['status'], { label: string; classes: string }> = {
