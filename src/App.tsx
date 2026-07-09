@@ -12,10 +12,10 @@ type Page = 'home' | 'buffoons' | 'history' | 'lore' | 'apply' | 'map' | 'downlo
 
 const NAV: { id: Page; label: string }[] = [
   { id: 'buffoons',  label: 'Buffoons'  },
-  { id: 'history',   label: 'History'   },
   { id: 'lore',      label: 'Lore'      },
   { id: 'map',       label: 'Live Map'  },
   { id: 'downloads', label: 'Downloads' },
+  { id: 'history',   label: 'History'   },
   { id: 'apply',     label: 'Apply'     },
 ];
 
@@ -225,7 +225,7 @@ export default function App() {
 
             {/* Nav links */}
             <nav className="flex flex-wrap justify-center gap-x-6 gap-y-2">
-              {(['home', 'buffoons', 'history', 'lore', 'map', 'downloads', 'apply'] as Page[]).map(p => (
+              {(['home', 'buffoons', 'lore', 'map', 'downloads', 'history', 'apply'] as Page[]).map(p => (
                 <button
                   key={p}
                   onClick={() => navigate(p)}
