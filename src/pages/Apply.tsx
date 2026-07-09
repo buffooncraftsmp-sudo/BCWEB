@@ -58,6 +58,37 @@ export default function Apply() {
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) => setForm(f => ({ ...f, [field]: e.target.value }));
 
+  const sendDiscordWebhook = async (data: FormData, createdAt: string) => {
+    const webhookUrl = import.meta.env.VITE_DISCORD_WEBHOOK_URL;
+    if (!webhookUrl) return;
+
+    try {
+      await fetch(webhookUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          embeds: [{
+            title: 'New Buffoon Application',
+            color: 0x22c55e,
+            fields: [
+              { name: 'IGN',             value: data.ign.trim(),              inline: true  },
+              { name: 'Discord',         value: data.discord_username.trim(), inline: true  },
+              { name: 'Platform',        value: data.platform,                inline: true  },
+              { name: 'Channel URL',     value: data.channel_url.trim(),      inline: false },
+              { name: 'Followers',       value: data.follower_count.trim() || 'Not provided', inline: true },
+              { name: 'Status',          value: 'pending',                    inline: true  },
+              { name: 'Content Style',   value: data.content_style.trim(),    inline: false },
+              { name: 'Why Apply',       value: data.why_apply.trim(),        inline: false },
+            ],
+            footer: { text: `Submitted at ${new Date(createdAt).toUTCString()}` },
+          }],
+        }),
+      });
+    } catch {
+      // Discord failure does not block submission
+    }
+  };
+
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
@@ -65,21 +96,27 @@ export default function Apply() {
     if (!form.platform) { setError('Please select a platform.'); return; }
 
     setLoading(true);
-    const { error: dbError } = await supabase.from('buffoon_applications').insert({
-      ign:              form.ign.trim(),
-      discord_username: form.discord_username.trim(),
-      platform:         form.platform,
-      channel_url:      form.channel_url.trim(),
-      follower_count:   form.follower_count.trim(),
-      content_style:    form.content_style.trim(),
-      why_apply:        form.why_apply.trim(),
-    });
+    const { data: inserted, error: dbError } = await supabase
+      .from('buffoon_applications')
+      .insert({
+        ign:              form.ign.trim(),
+        discord_username: form.discord_username.trim(),
+        platform:         form.platform,
+        channel_url:      form.channel_url.trim(),
+        follower_count:   form.follower_count.trim(),
+        content_style:    form.content_style.trim(),
+        why_apply:        form.why_apply.trim(),
+      })
+      .select('created_at')
+      .single();
     setLoading(false);
 
     if (dbError) {
       setError('Something went wrong submitting your application. Please try again.');
       return;
     }
+
+    await sendDiscordWebhook(form, inserted?.created_at ?? new Date().toISOString());
     setSuccess(true);
     setForm(EMPTY);
   };
