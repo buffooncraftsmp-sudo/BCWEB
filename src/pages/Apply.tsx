@@ -58,34 +58,24 @@ export default function Apply() {
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) => setForm(f => ({ ...f, [field]: e.target.value }));
 
-  const sendDiscordWebhook = async (data: FormData, createdAt: string) => {
-    const webhookUrl = import.meta.env.VITE_DISCORD_WEBHOOK_URL;
-    if (!webhookUrl) return;
-
+  const sendDiscordNotification = async (data: FormData, createdAt: string) => {
     try {
-      await fetch(webhookUrl, {
+      await fetch('/api/send-discord-application', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          embeds: [{
-            title: 'New Buffoon Application',
-            color: 0x22c55e,
-            fields: [
-              { name: 'IGN',             value: data.ign.trim(),              inline: true  },
-              { name: 'Discord',         value: data.discord_username.trim(), inline: true  },
-              { name: 'Platform',        value: data.platform,                inline: true  },
-              { name: 'Channel URL',     value: data.channel_url.trim(),      inline: false },
-              { name: 'Followers',       value: data.follower_count.trim() || 'Not provided', inline: true },
-              { name: 'Status',          value: 'pending',                    inline: true  },
-              { name: 'Content Style',   value: data.content_style.trim(),    inline: false },
-              { name: 'Why Apply',       value: data.why_apply.trim(),        inline: false },
-            ],
-            footer: { text: `Submitted at ${new Date(createdAt).toUTCString()}` },
-          }],
+          ign:              data.ign.trim(),
+          discord_username: data.discord_username.trim(),
+          platform:         data.platform,
+          channel_url:      data.channel_url.trim(),
+          follower_count:   data.follower_count.trim(),
+          content_style:    data.content_style.trim(),
+          why_apply:        data.why_apply.trim(),
+          created_at:       createdAt,
         }),
       });
-    } catch {
-      // Discord failure does not block submission
+    } catch (err) {
+      console.error('Failed to send Discord notification:', err);
     }
   };
 
@@ -116,7 +106,7 @@ export default function Apply() {
       return;
     }
 
-    await sendDiscordWebhook(form, inserted?.created_at ?? new Date().toISOString());
+    await sendDiscordNotification(form, inserted?.created_at ?? new Date().toISOString());
     setSuccess(true);
     setForm(EMPTY);
   };
