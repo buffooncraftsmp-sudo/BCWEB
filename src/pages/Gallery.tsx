@@ -33,11 +33,31 @@ const ITEMS = [
   { src: `${STORAGE}/s2/shutsbase.png`,                 season: 2, label: "Shut's Base"          },
   { src: `${STORAGE}/s2/nantyscafe.png`,                season: 2, label: "Nanty's Cafe"         },
   { src: `${STORAGE}/s2/chickenmafiachurch.png`,        season: 2, label: 'Chicken Mafia Church' },
+  // Season 3
+  { src: `${STORAGE}/s3/AncientChronicle.png`,         season: 3, label: 'Ancient Chronicle'    },
+  { src: `${STORAGE}/s3/CHEOcharitybuild%20(2).png`,   season: 3, label: 'CHEO Charity Build 2' },
+  { src: `${STORAGE}/s3/CHEOcharitybuild.png`,         season: 3, label: 'CHEO Charity Build'   },
+  { src: `${STORAGE}/s3/flying%26novamobfarm.png`,     season: 3, label: "Flying & Nova's Mob Farm" },
+  { src: `${STORAGE}/s3/Greenersbase.png`,             season: 3, label: "Greener's Base"       },
+  { src: `${STORAGE}/s3/Kornysbase.png`,               season: 3, label: "Korny's Base"         },
+  { src: `${STORAGE}/s3/kyscave.png`,                  season: 3, label: "KY's Cave"            },
+  { src: `${STORAGE}/s3/kyspirateloot.png`,            season: 3, label: "KY's Pirate Loot"     },
+  { src: `${STORAGE}/s3/kystower.png`,                 season: 3, label: "KY's Tower"           },
+  { src: `${STORAGE}/s3/NebsBaase.png`,                season: 3, label: "Neb's Base"           },
+  { src: `${STORAGE}/s3/NovasBase.png`,                season: 3, label: "Nova's Base"          },
+  { src: `${STORAGE}/s3/season3event.png`,             season: 3, label: 'Season 3 Event'       },
+  { src: `${STORAGE}/s3/shutsbase.png`,                season: 3, label: "Shut's Base"          },
+  { src: `${STORAGE}/s3/shutslibrary.png`,             season: 3, label: "Shut's Library"       },
+  { src: `${STORAGE}/s3/spawn.png`,                    season: 3, label: 'Spawn'                },
+  { src: `${STORAGE}/s3/TheCaveEscapeshaft.png`,       season: 3, label: 'The Cave Escape Shaft'},
+  { src: `${STORAGE}/s3/theobelisk.png`,               season: 3, label: 'The Obelisk'          },
+  { src: `${STORAGE}/s3/thepostmasters.png`,           season: 3, label: 'The Postmasters'      },
+  { src: `${STORAGE}/s3/WarriorsBase.png`,             season: 3, label: "Warrior's Base"       },
   // Season 6
   { src: `/buffoonskies_1.png`,                         season: 6, label: 'Buffoon Skies'        },
 ];
 
-const SEASONS = [1, 2, 6] as const;
+const SEASONS = [1, 2, 3, 6] as const;
 
 function GalleryCard({
   item,
