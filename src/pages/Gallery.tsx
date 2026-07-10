@@ -2,12 +2,9 @@ import { useState } from 'react';
 import { X, Images } from 'lucide-react';
 
 const STORAGE = 'https://hfvasgamqirubmamdvfo.supabase.co/storage/v1/object/public/gallery';
-const TRANSFORM = 'https://hfvasgamqirubmamdvfo.supabase.co/storage/v1/render/image/public/gallery';
 
 function thumbUrl(src: string): string {
-  if (!src.startsWith(STORAGE)) return src;
-  const path = src.slice(STORAGE.length);
-  return `${TRANSFORM}${path}?width=600&quality=75&format=webp`;
+  return src;
 }
 
 const ITEMS = [
