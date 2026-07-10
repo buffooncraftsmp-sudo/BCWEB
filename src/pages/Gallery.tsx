@@ -5,44 +5,24 @@ const STORAGE = 'https://hfvasgamqirubmamdvfo.supabase.co/storage/v1/object/publ
 
 const ITEMS = [
   // Season 2
-  { src: `/s2spawne.png`,                                       season: 2, label: 'Spawn'                },
-  { src: `${STORAGE}/s2/flyingsbase.png`,                       season: 2, label: "Flying's Base"        },
-  { src: `${STORAGE}/s2/flyingstrain.png`,                      season: 2, label: "Flying's Train"       },
-  { src: `${STORAGE}/s2/KysBase.png`,                           season: 2, label: "KY's Base"            },
-  { src: `${STORAGE}/s2/kornysbase.png`,                        season: 2, label: "Korny's Base"         },
-  { src: `${STORAGE}/s2/NovasBase.png`,                         season: 2, label: "Nova's Base"          },
-  { src: `${STORAGE}/s2/Niovasbase.png`,                        season: 2, label: "Niova's Base"         },
-  { src: `${STORAGE}/s2/Turbosbase.png`,                        season: 2, label: "Turbo's Base"         },
-  { src: `${STORAGE}/s2/thundersbase.png`,                      season: 2, label: "Thunder's Base"       },
-  { src: `${STORAGE}/s2/thundrescanal.png`,                     season: 2, label: "Thunder's Canal"      },
-  { src: `${STORAGE}/s2/shutsbase.png`,                         season: 2, label: "Shut's Base"          },
-  { src: `${STORAGE}/s2/nantyscafe.png`,                        season: 2, label: "Nanty's Cafe"         },
-  { src: `${STORAGE}/s2/chickenmafiachurch.png`,                season: 2, label: 'Chicken Mafia Church' },
-  { src: `${STORAGE}/s2/2026-07-10_07.57.25.png`,               season: 2, label: 'Screenshot'           },
-  // Season 3
-  { src: `${STORAGE}/s3/season3spawn.png`,           season: 3, label: 'Spawn'           },
-  { src: `${STORAGE}/s3/season3event.png`,           season: 3, label: 'Event'           },
-  // Season 4
-  { src: `${STORAGE}/s4/season4Spawn.png`,           season: 4, label: 'Spawn'           },
-  { src: `${STORAGE}/s4/nebss4base.png`,             season: 4, label: "Nebs' Base"      },
-  { src: `${STORAGE}/s4/Thunders4base.png`,          season: 4, label: "Thunder's Base"  },
-  { src: `${STORAGE}/s4/shuts4.png`,                 season: 4, label: 'Screenshot'      },
-  // Season 5
-  { src: `${STORAGE}/s5/season5spawn.png`,           season: 5, label: 'Spawn'           },
-  { src: `${STORAGE}/s5/shuts5.png`,                 season: 5, label: 'Screenshot'      },
+  { src: `/s2spawne.png`,                          season: 2, label: 'Spawn'                },
+  { src: `${STORAGE}/s2/flyingsbase.png`,          season: 2, label: "Flying's Base"        },
+  { src: `${STORAGE}/s2/flyingstrain.png`,         season: 2, label: "Flying's Train"       },
+  { src: `${STORAGE}/s2/KysBase.png`,              season: 2, label: "KY's Base"            },
+  { src: `${STORAGE}/s2/kornysbase.png`,           season: 2, label: "Korny's Base"         },
+  { src: `${STORAGE}/s2/NovasBase.png`,            season: 2, label: "Nova's Base"          },
+  { src: `${STORAGE}/s2/Niovasbase.png`,           season: 2, label: "Niova's Base"         },
+  { src: `${STORAGE}/s2/Turbosbase.png`,           season: 2, label: "Turbo's Base"         },
+  { src: `${STORAGE}/s2/thundersbase.png`,         season: 2, label: "Thunder's Base"       },
+  { src: `${STORAGE}/s2/thundrescanal.png`,        season: 2, label: "Thunder's Canal"      },
+  { src: `${STORAGE}/s2/shutsbase.png`,            season: 2, label: "Shut's Base"          },
+  { src: `${STORAGE}/s2/nantyscafe.png`,           season: 2, label: "Nanty's Cafe"         },
+  { src: `${STORAGE}/s2/chickenmafiachurch.png`,   season: 2, label: 'Chicken Mafia Church' },
   // Season 6
-  { src: `${STORAGE}/s6/BuffoonSkiesMiniSeason.png`, season: 6, label: 'Buffoon Skies 2' },
-  { src: `/buffoonskies_1.png`,                       season: 6, label: 'Buffoon Skies'   },
-  { src: `${STORAGE}/s6/doras6base.png`,             season: 6, label: "Dora's Base"     },
-  { src: `${STORAGE}/s6/Doras6png.png`,              season: 6, label: "Dora's Build"    },
-  { src: `${STORAGE}/s6/flyingrelaxs6.png`,          season: 6, label: 'Flying Relaxing' },
-  { src: `${STORAGE}/s6/flyings6.png`,               season: 6, label: "Flying's Build"  },
-  { src: `${STORAGE}/s6/flyingsboat6.png`,           season: 6, label: "Flying's Boat"   },
-  { src: `${STORAGE}/s6/Lones6.png`,                 season: 6, label: "Lone's Build"    },
-  { src: `${STORAGE}/s6/shuts6.png`,                 season: 6, label: 'Screenshot'      },
+  { src: `/buffoonskies_1.png`,                    season: 6, label: 'Buffoon Skies'        },
 ];
 
-const SEASONS = [2, 3, 4, 5, 6] as const;
+const SEASONS = [2, 6] as const;
 
 export default function Gallery() {
   const [filter, setFilter] = useState<number | null>(null);
