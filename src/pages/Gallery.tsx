@@ -8,7 +8,7 @@ const ITEMS = [
   { src: `${STORAGE}/s1/KysBarns.png`,                  season: 1, label: "KY's Barns"          },
   { src: `${STORAGE}/s1/Kysbase.png`,                   season: 1, label: "KY's Base"            },
   { src: `${STORAGE}/s1/novaguardianfarm.png`,          season: 1, label: "Nova's Guardian Farm" },
-  { src: `${STORAGE}/s1/novasbase%20(2).png`,           season: 1, label: "Nova's Base 2"        },
+  { src: `${STORAGE}/s1/novasbase%20(2).png`,           season: 1, label: "Nova's Base"          },
   { src: `${STORAGE}/s1/Novasbase.png`,                 season: 1, label: "Nova's Base"          },
   { src: `${STORAGE}/s1/redstonechurch.png`,            season: 1, label: 'Redstone Church'      },
   { src: `${STORAGE}/s1/redstonekingdom.png`,           season: 1, label: 'Redstone Kingdom'     },
