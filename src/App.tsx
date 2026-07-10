@@ -7,12 +7,14 @@ import History   from './pages/History';
 import Apply     from './pages/Apply';
 import LiveMap   from './pages/Map';
 import Downloads from './pages/Downloads';
-import Lore from './pages/Lore';
-type Page = 'home' | 'buffoons' | 'history' | 'lore' | 'apply' | 'map' | 'downloads' | 'store';
+import Lore    from './pages/Lore';
+import Gallery from './pages/Gallery';
+type Page = 'home' | 'buffoons' | 'history' | 'lore' | 'apply' | 'map' | 'downloads' | 'gallery' | 'store';
 
 const NAV: { id: Page; label: string }[] = [
   { id: 'buffoons',  label: 'Buffoons'  },
   { id: 'lore',      label: 'Lore'      },
+  { id: 'gallery',   label: 'Gallery'   },
   { id: 'map',       label: 'Live Map'  },
   { id: 'downloads', label: 'Downloads' },
   { id: 'history',   label: 'History'   },
@@ -26,6 +28,7 @@ const PAGE_TITLES: Record<Page, string> = {
   lore:      'Lore — BuffoonCraft',
   map:       'Live Map — BuffoonCraft',
   downloads: 'Downloads — BuffoonCraft',
+  gallery:   'Gallery — BuffoonCraft',
   apply:     'Apply — BuffoonCraft',
   store:     'Store — BuffoonCraft',
 };
@@ -194,6 +197,7 @@ export default function App() {
         {page === 'lore'      && <Lore     />}
         {page === 'map'       && <LiveMap  />}
         {page === 'downloads' && <Downloads />}
+        {page === 'gallery'   && <Gallery   />}
         {page === 'apply'     && <Apply    />}
         {page === 'store'     && (
           <div className="min-h-screen flex flex-col items-center justify-center px-4 text-center gap-6">
@@ -225,7 +229,7 @@ export default function App() {
 
             {/* Nav links */}
             <nav className="flex flex-wrap justify-center gap-x-6 gap-y-2">
-              {(['home', 'buffoons', 'lore', 'map', 'downloads', 'history', 'apply'] as Page[]).map(p => (
+              {(['home', 'buffoons', 'lore', 'gallery', 'map', 'downloads', 'history', 'apply'] as Page[]).map(p => (
                 <button
                   key={p}
                   onClick={() => navigate(p)}
