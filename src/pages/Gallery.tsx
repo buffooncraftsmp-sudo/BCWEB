@@ -5,7 +5,7 @@ const STORAGE = 'https://hfvasgamqirubmamdvfo.supabase.co/storage/v1/object/publ
 
 const ITEMS = [
   // Season 2
-  { src: `${STORAGE}/s2/s2spawne.png`,                          season: 2, label: 'Spawn'                },
+  { src: `/s2spawne.png`,                                       season: 2, label: 'Spawn'                },
   { src: `${STORAGE}/s2/flyingsbase.png`,                       season: 2, label: "Flying's Base"        },
   { src: `${STORAGE}/s2/flyingstrain.png`,                      season: 2, label: "Flying's Train"       },
   { src: `${STORAGE}/s2/KysBase.png`,                           season: 2, label: "KY's Base"            },
@@ -32,7 +32,7 @@ const ITEMS = [
   { src: `${STORAGE}/s5/shuts5.png`,                 season: 5, label: 'Screenshot'      },
   // Season 6
   { src: `${STORAGE}/s6/BuffoonSkiesMiniSeason.png`, season: 6, label: 'Buffoon Skies 2' },
-  { src: `${STORAGE}/s6/buffoonskies_1.png`,         season: 6, label: 'Buffoon Skies'   },
+  { src: `/buffoonskies_1.png`,                       season: 6, label: 'Buffoon Skies'   },
   { src: `${STORAGE}/s6/doras6base.png`,             season: 6, label: "Dora's Base"     },
   { src: `${STORAGE}/s6/Doras6png.png`,              season: 6, label: "Dora's Build"    },
   { src: `${STORAGE}/s6/flyingrelaxs6.png`,          season: 6, label: 'Flying Relaxing' },
@@ -47,8 +47,13 @@ const SEASONS = [2, 3, 4, 5, 6] as const;
 export default function Gallery() {
   const [filter, setFilter] = useState<number | null>(null);
   const [lightbox, setLightbox] = useState<(typeof ITEMS)[number] | null>(null);
+  const [failed, setFailed] = useState<Set<string>>(new Set());
 
-  const visible = filter === null ? ITEMS : ITEMS.filter(i => i.season === filter);
+  const markFailed = (src: string) =>
+    setFailed(prev => new Set(prev).add(src));
+
+  const allVisible = filter === null ? ITEMS : ITEMS.filter(i => i.season === filter);
+  const visible = allVisible.filter(i => !failed.has(i.src));
 
   return (
     <div className="min-h-screen bg-slate-950 pt-24 pb-28">
@@ -99,15 +104,18 @@ export default function Gallery() {
       {/* Grid */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="columns-2 sm:columns-3 lg:columns-4 gap-3 space-y-3">
-          {visible.map((item, i) => (
+          {allVisible.map((item, i) => (
             <div
               key={`${item.src}-${i}`}
-              onClick={() => setLightbox(item)}
-              className="relative break-inside-avoid rounded-xl overflow-hidden cursor-pointer group"
+              onClick={() => !failed.has(item.src) && setLightbox(item)}
+              className={`relative break-inside-avoid rounded-xl overflow-hidden cursor-pointer group ${
+                failed.has(item.src) ? 'hidden' : ''
+              }`}
             >
               <img
                 src={item.src}
                 alt={item.label}
+                onError={() => markFailed(item.src)}
                 className="w-full object-cover group-hover:scale-105 transition-transform duration-500"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
