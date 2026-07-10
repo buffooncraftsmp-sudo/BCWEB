@@ -1,12 +1,24 @@
 import { useState } from 'react';
 import { X, Images } from 'lucide-react';
 
+const S2 = '/s2';
+
 const ITEMS = [
   // Season 2
-  { src: '/s2spawne.png',                       season: 2, label: 'Spawn'           },
-  { src: '/gallery/flyings2base.png',           season: 2, label: "Flying's Base"   },
-  { src: '/gallery/kys2base.png',               season: 2, label: "KY's Base"       },
-  { src: '/gallery/novas2base.png',             season: 2, label: "Nova's Base"     },
+  { src: '/s2spawne.png',                          season: 2, label: 'Spawn'                },
+  { src: `${S2}/flyingsbase.png`,                  season: 2, label: "Flying's Base"        },
+  { src: `${S2}/flyingstrain.png`,                 season: 2, label: "Flying's Train"       },
+  { src: `${S2}/KysBase.png`,                      season: 2, label: "KY's Base"            },
+  { src: `${S2}/kornysbase.png`,                   season: 2, label: "Korny's Base"         },
+  { src: `${S2}/NovasBase.png`,                    season: 2, label: "Nova's Base"          },
+  { src: `${S2}/Niovasbase.png`,                   season: 2, label: "Niova's Base"         },
+  { src: `${S2}/Turbosbase.png`,                   season: 2, label: "Turbo's Base"         },
+  { src: `${S2}/thundersbase.png`,                 season: 2, label: "Thunder's Base"       },
+  { src: `${S2}/thundrescanal.png`,                season: 2, label: "Thunder's Canal"      },
+  { src: `${S2}/shutsbase.png`,                    season: 2, label: "Shut's Base"          },
+  { src: `${S2}/nantyscafe.png`,                   season: 2, label: "Nanty's Cafe"         },
+  { src: `${S2}/chickenmafiachurch.png`,           season: 2, label: 'Chicken Mafia Church' },
+  { src: `${S2}/2026-07-10_07.57.25.png`,          season: 2, label: 'Screenshot'           },
   // Season 3
   { src: '/gallery/season3spawn.png',           season: 3, label: 'Spawn'           },
   { src: '/gallery/season3event.png',           season: 3, label: 'Event'           },
