@@ -2,6 +2,13 @@ import { useState } from 'react';
 import { X, Images } from 'lucide-react';
 
 const STORAGE = 'https://hfvasgamqirubmamdvfo.supabase.co/storage/v1/object/public/gallery';
+const TRANSFORM = 'https://hfvasgamqirubmamdvfo.supabase.co/storage/v1/render/image/public/gallery';
+
+function thumbUrl(src: string): string {
+  if (!src.startsWith(STORAGE)) return src;
+  const path = src.slice(STORAGE.length);
+  return `${TRANSFORM}${path}?width=600&quality=75&format=webp`;
+}
 
 const ITEMS = [
   // Season 1
@@ -13,24 +20,68 @@ const ITEMS = [
   { src: `${STORAGE}/s1/redstonechurch.png`,            season: 1, label: 'Redstone Church'      },
   { src: `${STORAGE}/s1/redstonekingdom.png`,           season: 1, label: 'Redstone Kingdom'     },
   // Season 2
-  { src: `/s2spawne.png`,                          season: 2, label: 'Spawn'                },
-  { src: `${STORAGE}/s2/flyingsbase.png`,          season: 2, label: "Flying's Base"        },
-  { src: `${STORAGE}/s2/flyingstrain.png`,         season: 2, label: "Flying's Train"       },
-  { src: `${STORAGE}/s2/KysBase.png`,              season: 2, label: "KY's Base"            },
-  { src: `${STORAGE}/s2/kornysbase.png`,           season: 2, label: "Korny's Base"         },
-  { src: `${STORAGE}/s2/NovasBase.png`,            season: 2, label: "Nova's Base"          },
-  { src: `${STORAGE}/s2/Niovasbase.png`,           season: 2, label: "Niova's Base"         },
-  { src: `${STORAGE}/s2/Turbosbase.png`,           season: 2, label: "Turbo's Base"         },
-  { src: `${STORAGE}/s2/thundersbase.png`,         season: 2, label: "Thunder's Base"       },
-  { src: `${STORAGE}/s2/thundrescanal.png`,        season: 2, label: "Thunder's Canal"      },
-  { src: `${STORAGE}/s2/shutsbase.png`,            season: 2, label: "Shut's Base"          },
-  { src: `${STORAGE}/s2/nantyscafe.png`,           season: 2, label: "Nanty's Cafe"         },
-  { src: `${STORAGE}/s2/chickenmafiachurch.png`,   season: 2, label: 'Chicken Mafia Church' },
+  { src: `/s2spawne.png`,                               season: 2, label: 'Spawn'                },
+  { src: `${STORAGE}/s2/flyingsbase.png`,               season: 2, label: "Flying's Base"        },
+  { src: `${STORAGE}/s2/flyingstrain.png`,              season: 2, label: "Flying's Train"       },
+  { src: `${STORAGE}/s2/KysBase.png`,                   season: 2, label: "KY's Base"            },
+  { src: `${STORAGE}/s2/kornysbase.png`,                season: 2, label: "Korny's Base"         },
+  { src: `${STORAGE}/s2/NovasBase.png`,                 season: 2, label: "Nova's Base"          },
+  { src: `${STORAGE}/s2/Niovasbase.png`,                season: 2, label: "Niova's Base"         },
+  { src: `${STORAGE}/s2/Turbosbase.png`,                season: 2, label: "Turbo's Base"         },
+  { src: `${STORAGE}/s2/thundersbase.png`,              season: 2, label: "Thunder's Base"       },
+  { src: `${STORAGE}/s2/thundrescanal.png`,             season: 2, label: "Thunder's Canal"      },
+  { src: `${STORAGE}/s2/shutsbase.png`,                 season: 2, label: "Shut's Base"          },
+  { src: `${STORAGE}/s2/nantyscafe.png`,                season: 2, label: "Nanty's Cafe"         },
+  { src: `${STORAGE}/s2/chickenmafiachurch.png`,        season: 2, label: 'Chicken Mafia Church' },
   // Season 6
-  { src: `/buffoonskies_1.png`,                    season: 6, label: 'Buffoon Skies'        },
+  { src: `/buffoonskies_1.png`,                         season: 6, label: 'Buffoon Skies'        },
 ];
 
 const SEASONS = [1, 2, 6] as const;
+
+function GalleryCard({
+  item,
+  onOpen,
+  onFail,
+  failed,
+}: {
+  item: (typeof ITEMS)[number];
+  onOpen: () => void;
+  onFail: () => void;
+  failed: boolean;
+}) {
+  const [loaded, setLoaded] = useState(false);
+
+  if (failed) return null;
+
+  return (
+    <div
+      onClick={onOpen}
+      className="relative break-inside-avoid rounded-xl overflow-hidden cursor-pointer group mb-3"
+    >
+      {/* Skeleton shown until image loads */}
+      {!loaded && (
+        <div className="w-full aspect-video bg-slate-800 animate-pulse rounded-xl" />
+      )}
+      <img
+        src={thumbUrl(item.src)}
+        alt={item.label}
+        loading="lazy"
+        decoding="async"
+        onLoad={() => setLoaded(true)}
+        onError={onFail}
+        className={`w-full object-cover group-hover:scale-105 transition-all duration-500 ${
+          loaded ? 'opacity-100' : 'opacity-0 absolute inset-0'
+        }`}
+      />
+      <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+      <div className="absolute bottom-0 left-0 right-0 p-3 translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
+        <p className="font-pixel text-[9px] text-brand-400 tracking-widest">SEASON {item.season}</p>
+        <p className="text-xs font-bold text-white mt-0.5">{item.label}</p>
+      </div>
+    </div>
+  );
+}
 
 export default function Gallery() {
   const [filter, setFilter] = useState<number | null>(null);
@@ -40,8 +91,8 @@ export default function Gallery() {
   const markFailed = (src: string) =>
     setFailed(prev => new Set(prev).add(src));
 
-  const allVisible = filter === null ? ITEMS : ITEMS.filter(i => i.season === filter);
-  const visible = allVisible.filter(i => !failed.has(i.src));
+  const visible = (filter === null ? ITEMS : ITEMS.filter(i => i.season === filter))
+    .filter(i => !failed.has(i.src));
 
   return (
     <div className="min-h-screen bg-slate-950 pt-24 pb-28">
@@ -91,27 +142,15 @@ export default function Gallery() {
 
       {/* Grid */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="columns-2 sm:columns-3 lg:columns-4 gap-3 space-y-3">
-          {allVisible.map((item, i) => (
-            <div
+        <div className="columns-2 sm:columns-3 lg:columns-4 gap-3">
+          {(filter === null ? ITEMS : ITEMS.filter(i => i.season === filter)).map((item, i) => (
+            <GalleryCard
               key={`${item.src}-${i}`}
-              onClick={() => !failed.has(item.src) && setLightbox(item)}
-              className={`relative break-inside-avoid rounded-xl overflow-hidden cursor-pointer group ${
-                failed.has(item.src) ? 'hidden' : ''
-              }`}
-            >
-              <img
-                src={item.src}
-                alt={item.label}
-                onError={() => markFailed(item.src)}
-                className="w-full object-cover group-hover:scale-105 transition-transform duration-500"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-              <div className="absolute bottom-0 left-0 right-0 p-3 translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
-                <p className="font-pixel text-[9px] text-brand-400 tracking-widest">SEASON {item.season}</p>
-                <p className="text-xs font-bold text-white mt-0.5">{item.label}</p>
-              </div>
-            </div>
+              item={item}
+              onOpen={() => setLightbox(item)}
+              onFail={() => markFailed(item.src)}
+              failed={failed.has(item.src)}
+            />
           ))}
         </div>
 
