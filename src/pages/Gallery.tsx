@@ -1,42 +1,115 @@
 import { useState } from 'react';
 import { X, Images } from 'lucide-react';
 
+function gallery(season: number, slug: string) {
+  return {
+    thumb: `/gallery/s${season}/${slug}-thumb.webp`,
+    full: `/gallery/s${season}/${slug}-full.webp`,
+  };
+}
+
 const ITEMS = [
+  // Season 1
+  { ...gallery(1, 'KysBarns'),           season: 1, label: "KY's Barns"          },
+  { ...gallery(1, 'Kysbase'),            season: 1, label: "KY's Base"            },
+  { ...gallery(1, 'novaguardianfarm'),   season: 1, label: "Nova's Guardian Farm" },
+  { ...gallery(1, 'novasbase2'),         season: 1, label: "Nova's Base"          },
+  { ...gallery(1, 'Novasbase'),          season: 1, label: "Nova's Base"          },
+  { ...gallery(1, 'redstonechurch'),     season: 1, label: 'Redstone Church'      },
+  { ...gallery(1, 'redstonekingdom'),    season: 1, label: 'Redstone Kingdom'     },
   // Season 2
-  { src: '/s2spawne.png',                       season: 2, label: 'Spawn'           },
-  { src: '/gallery/flyings2base.png',           season: 2, label: "Flying's Base"   },
-  { src: '/gallery/kys2base.png',               season: 2, label: "KY's Base"       },
-  { src: '/gallery/novas2base.png',             season: 2, label: "Nova's Base"     },
+  { ...gallery(2, 'spawn'),              season: 2, label: 'Spawn'                },
+  { ...gallery(2, 'flyingsbase'),        season: 2, label: "Flying's Base"        },
+  { ...gallery(2, 'flyingstrain'),       season: 2, label: "Flying's Train"       },
+  { ...gallery(2, 'KysBase'),            season: 2, label: "KY's Base"            },
+  { ...gallery(2, 'kornysbase'),         season: 2, label: "Korny's Base"         },
+  { ...gallery(2, 'NovasBase'),          season: 2, label: "Nova's Base"          },
+  { ...gallery(2, 'Turbosbase'),         season: 2, label: "Turbo's Base"         },
+  { ...gallery(2, 'thundersbase'),       season: 2, label: "Thunder's Base"       },
+  { ...gallery(2, 'thundrescanal'),      season: 2, label: "Thunder's Canal"      },
+  { ...gallery(2, 'shutsbase'),          season: 2, label: "Shut's Base"          },
+  { ...gallery(2, 'nantyscafe'),         season: 2, label: "Nanty's Cafe"         },
+  { ...gallery(2, 'chickenmafiachurch'), season: 2, label: 'Chicken Mafia Church' },
   // Season 3
-  { src: '/gallery/season3spawn.png',           season: 3, label: 'Spawn'           },
-  { src: '/gallery/season3event.png',           season: 3, label: 'Event'           },
-  // Season 4
-  { src: '/gallery/season4Spawn.png',           season: 4, label: 'Spawn'           },
-  { src: '/gallery/nebss4base.png',             season: 4, label: "Nebs' Base"      },
-  { src: '/gallery/Thunders4base.png',          season: 4, label: "Thunder's Base"  },
-  { src: '/gallery/shuts4.png',                 season: 4, label: 'Screenshot'      },
-  // Season 5
-  { src: '/gallery/season5spawn.png',           season: 5, label: 'Spawn'           },
-  { src: '/gallery/shuts5.png',                 season: 5, label: 'Screenshot'      },
+  { ...gallery(3, 'AncientChronicle'),   season: 3, label: 'Ancient Chronicle'    },
+  { ...gallery(3, 'CHEOcharitybuild2'),  season: 3, label: 'CHEO Charity Build 2' },
+  { ...gallery(3, 'CHEOcharitybuild'),   season: 3, label: 'CHEO Charity Build'   },
+  { ...gallery(3, 'flyingnovamobfarm'),  season: 3, label: "Flying & Nova's Mob Farm" },
+  { ...gallery(3, 'Greenersbase'),       season: 3, label: "Greener's Base"       },
+  { ...gallery(3, 'Kornysbase'),         season: 3, label: "Korny's Base"         },
+  { ...gallery(3, 'kyscave'),            season: 3, label: "KY's Cave"            },
+  { ...gallery(3, 'kyspirateloot'),      season: 3, label: "KY's Pirate Loot"     },
+  { ...gallery(3, 'kystower'),           season: 3, label: "KY's Tower"           },
+  { ...gallery(3, 'NebsBaase'),          season: 3, label: "Neb's Base"           },
+  { ...gallery(3, 'NovasBase'),          season: 3, label: "Nova's Base"          },
+  { ...gallery(3, 'season3event'),       season: 3, label: 'Season 3 Event'       },
+  { ...gallery(3, 'shutsbase'),          season: 3, label: "Shut's Base"          },
+  { ...gallery(3, 'shutslibrary'),       season: 3, label: "Shut's Library"       },
+  { ...gallery(3, 'spawn'),              season: 3, label: 'Spawn'                },
+  { ...gallery(3, 'TheCaveEscapeshaft'), season: 3, label: 'The Cave Escape Shaft'},
+  { ...gallery(3, 'theobelisk'),         season: 3, label: 'The Obelisk'          },
+  { ...gallery(3, 'thepostmasters'),     season: 3, label: 'The Postmasters'      },
+  { ...gallery(3, 'WarriorsBase'),       season: 3, label: "Warrior's Base"       },
   // Season 6
-  { src: '/gallery/BuffoonSkiesMiniSeason.png', season: 6, label: 'Buffoon Skies 2' },
-  { src: '/buffoonskies_1.png',                 season: 6, label: 'Buffoon Skies'   },
-  { src: '/gallery/doras6base.png',             season: 6, label: "Dora's Base"     },
-  { src: '/gallery/Doras6png.png',              season: 6, label: "Dora's Build"    },
-  { src: '/gallery/flyingrelaxs6.png',          season: 6, label: 'Flying Relaxing' },
-  { src: '/gallery/flyings6.png',               season: 6, label: "Flying's Build"  },
-  { src: '/gallery/flyingsboat6.png',           season: 6, label: "Flying's Boat"   },
-  { src: '/gallery/Lones6.png',                 season: 6, label: "Lone's Build"    },
-  { src: '/gallery/shuts6.png',                 season: 6, label: 'Screenshot'      },
+  { ...gallery(6, 'buffoonskies_1'),     season: 6, label: 'Buffoon Skies'        },
 ];
 
-const SEASONS = [2, 3, 4, 5, 6] as const;
+const SEASONS = [1, 2, 3, 6] as const;
+
+function GalleryCard({
+  item,
+  onOpen,
+  onFail,
+  failed,
+}: {
+  item: (typeof ITEMS)[number];
+  onOpen: () => void;
+  onFail: () => void;
+  failed: boolean;
+}) {
+  const [loaded, setLoaded] = useState(false);
+
+  if (failed) return null;
+
+  return (
+    <div
+      onClick={onOpen}
+      className="relative break-inside-avoid rounded-xl overflow-hidden cursor-pointer group mb-3"
+    >
+      {/* Skeleton shown until image loads */}
+      {!loaded && (
+        <div className="w-full aspect-video bg-slate-800 animate-pulse rounded-xl" />
+      )}
+      <img
+        src={item.thumb}
+        alt={item.label}
+        loading="lazy"
+        decoding="async"
+        onLoad={() => setLoaded(true)}
+        onError={onFail}
+        className={`w-full object-cover group-hover:scale-105 transition-all duration-500 ${
+          loaded ? 'opacity-100' : 'opacity-0 absolute inset-0'
+        }`}
+      />
+      <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+      <div className="absolute bottom-0 left-0 right-0 p-3 translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
+        <p className="font-pixel text-[9px] text-brand-400 tracking-widest">SEASON {item.season}</p>
+        <p className="text-xs font-bold text-white mt-0.5">{item.label}</p>
+      </div>
+    </div>
+  );
+}
 
 export default function Gallery() {
   const [filter, setFilter] = useState<number | null>(null);
   const [lightbox, setLightbox] = useState<(typeof ITEMS)[number] | null>(null);
+  const [failed, setFailed] = useState<Set<string>>(new Set());
 
-  const visible = filter === null ? ITEMS : ITEMS.filter(i => i.season === filter);
+  const markFailed = (src: string) =>
+    setFailed(prev => new Set(prev).add(src));
+
+  const visible = (filter === null ? ITEMS : ITEMS.filter(i => i.season === filter))
+    .filter(i => !failed.has(i.thumb));
 
   return (
     <div className="min-h-screen bg-slate-950 pt-24 pb-28">
@@ -86,24 +159,15 @@ export default function Gallery() {
 
       {/* Grid */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="columns-2 sm:columns-3 lg:columns-4 gap-3 space-y-3">
-          {visible.map((item, i) => (
-            <div
-              key={`${item.src}-${i}`}
-              onClick={() => setLightbox(item)}
-              className="relative break-inside-avoid rounded-xl overflow-hidden cursor-pointer group"
-            >
-              <img
-                src={item.src}
-                alt={item.label}
-                className="w-full object-cover group-hover:scale-105 transition-transform duration-500"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-              <div className="absolute bottom-0 left-0 right-0 p-3 translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
-                <p className="font-pixel text-[9px] text-brand-400 tracking-widest">SEASON {item.season}</p>
-                <p className="text-xs font-bold text-white mt-0.5">{item.label}</p>
-              </div>
-            </div>
+        <div className="columns-2 sm:columns-3 lg:columns-4 gap-3">
+          {(filter === null ? ITEMS : ITEMS.filter(i => i.season === filter)).map((item, i) => (
+            <GalleryCard
+              key={`${item.thumb}-${i}`}
+              item={item}
+              onOpen={() => setLightbox(item)}
+              onFail={() => markFailed(item.thumb)}
+              failed={failed.has(item.thumb)}
+            />
           ))}
         </div>
 
@@ -129,7 +193,7 @@ export default function Gallery() {
             onClick={e => e.stopPropagation()}
           >
             <img
-              src={lightbox.src}
+              src={lightbox.full}
               alt={lightbox.label}
               className="w-full max-h-[80vh] object-contain rounded-2xl shadow-2xl"
             />

@@ -1,4 +1,6 @@
+import { useEffect, useState } from 'react';
 import { Twitch } from 'lucide-react';
+import { fetchTwitchStats, TwitchStats, TwitchUserStatus } from '../lib/twitch';
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Add / update buffoon profiles here. Skins are rendered from the IGN via
@@ -133,7 +135,7 @@ function skinUrl(ign: string) {
   return `https://visage.surgeplay.com/full/256/${ign}`;
 }
 
-function BuffoonCard({ b }: { b: Buffoon }) {
+function BuffoonCard({ b, live }: { b: Buffoon; live?: TwitchUserStatus }) {
   const imgSrc = b.avatarUrl ?? skinUrl(b.ign);
 
   return (
@@ -185,7 +187,7 @@ function BuffoonCard({ b }: { b: Buffoon }) {
         </div>
 
         {/* Twitch CTA */}
-        <div>
+        <div className="flex flex-wrap items-center gap-3">
           <a
             href={`https://www.twitch.tv/${b.twitchLogin}`}
             target="_blank"
@@ -195,6 +197,15 @@ function BuffoonCard({ b }: { b: Buffoon }) {
             <Twitch className="w-4 h-4" />
             Watch on Twitch
           </a>
+          {live?.isLive && (
+            <span className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-red-500/15 border border-red-500/40 text-red-400 text-xs font-bold rounded-full uppercase tracking-wide">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-500 opacity-75" />
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500" />
+              </span>
+              Live &middot; {live.viewerCount.toLocaleString()}
+            </span>
+          )}
         </div>
       </div>
     </article>
@@ -202,6 +213,18 @@ function BuffoonCard({ b }: { b: Buffoon }) {
 }
 
 export default function Buffoons() {
+  const [twitchStats, setTwitchStats] = useState<TwitchStats | null>(null);
+
+  useEffect(() => {
+    fetchTwitchStats().then(setTwitchStats);
+    const t = setInterval(() => fetchTwitchStats().then(setTwitchStats), 60_000);
+    return () => clearInterval(t);
+  }, []);
+
+  const liveByLogin = new Map(
+    (twitchStats?.users ?? []).map(u => [u.login.toLowerCase(), u])
+  );
+
   return (
     <div className="min-h-screen pt-20">
       {/* Header */}
@@ -224,7 +247,7 @@ export default function Buffoons() {
       {/* Cards */}
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-28 space-y-8">
         {BUFFOONS.map((b) => (
-          <BuffoonCard key={b.ign} b={b} />
+          <BuffoonCard key={b.ign} b={b} live={liveByLogin.get(b.twitchLogin.toLowerCase())} />
         ))}
       </div>
     </div>
