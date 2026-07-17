@@ -55,11 +55,12 @@ Deno.serve(async (req: Request) => {
     const token = await getTwitchToken(clientId, clientSecret);
     const authHeaders = { "Client-ID": clientId, Authorization: `Bearer ${token}` };
 
-    const query = CHANNELS.map((c) => `user_login=${encodeURIComponent(c)}`).join("&");
+    const streamQuery = CHANNELS.map((c) => `user_login=${encodeURIComponent(c)}`).join("&");
+    const userQuery = CHANNELS.map((c) => `login=${encodeURIComponent(c)}`).join("&");
 
     const [streamsRes, usersRes] = await Promise.all([
-      fetch(`https://api.twitch.tv/helix/streams?${query}&first=100`, { headers: authHeaders }),
-      fetch(`https://api.twitch.tv/helix/users?${query}`, { headers: authHeaders }),
+      fetch(`https://api.twitch.tv/helix/streams?${streamQuery}&first=100`, { headers: authHeaders }),
+      fetch(`https://api.twitch.tv/helix/users?${userQuery}`, { headers: authHeaders }),
     ]);
 
     if (!streamsRes.ok) throw new Error(`Streams API failed: ${streamsRes.status}`);

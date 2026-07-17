@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import {
   Users, Heart, ChevronDown, Play, ExternalLink, Sparkles
 } from 'lucide-react';
+import { fetchTwitchStats, TwitchStats } from '../lib/twitch';
 
 function scrollTo(id: string) {
   document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
@@ -14,30 +15,8 @@ const ABOUT_PARAGRAPHS = [
   'This isn\'t just a server—it\'s a group of friends creating something unforgettable.',
 ];
 
-const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL as string;
-const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY as string;
-
-async function fetchTwitchStats(): Promise<{ totalViewers: number; liveCount: number; totalFollowers: number } | null> {
-  try {
-    const res = await fetch(`${SUPABASE_URL}/functions/v1/twitch-stats`, {
-      headers: { Authorization: `Bearer ${SUPABASE_ANON_KEY}` },
-    });
-    if (!res.ok) return null;
-    const json = await res.json();
-    if (json.error) return null;
-    if (typeof json.totalViewers !== 'number' || typeof json.liveCount !== 'number') return null;
-    return {
-      totalViewers: json.totalViewers,
-      liveCount: json.liveCount,
-      totalFollowers: typeof json.totalFollowers === 'number' ? json.totalFollowers : 0,
-    };
-  } catch {
-    return null;
-  }
-}
-
 export default function Home({ onNavigate }: { onNavigate: (page: string) => void }) {
-  const [twitchStats, setTwitchStats] = useState<{ totalViewers: number; liveCount: number; totalFollowers: number } | null>(null);
+  const [twitchStats, setTwitchStats] = useState<TwitchStats | null>(null);
 
   useEffect(() => {
     fetchTwitchStats().then(setTwitchStats);

@@ -1,57 +1,57 @@
 import { useState } from 'react';
 import { X, Images } from 'lucide-react';
 
-const STORAGE = 'https://hfvasgamqirubmamdvfo.supabase.co/storage/v1/object/public/gallery';
-
-function thumbUrl(src: string): string {
-  return src;
+function gallery(season: number, slug: string) {
+  return {
+    thumb: `/gallery/s${season}/${slug}-thumb.webp`,
+    full: `/gallery/s${season}/${slug}-full.webp`,
+  };
 }
 
 const ITEMS = [
   // Season 1
-  { src: `${STORAGE}/s1/KysBarns.png`,                  season: 1, label: "KY's Barns"          },
-  { src: `${STORAGE}/s1/Kysbase.png`,                   season: 1, label: "KY's Base"            },
-  { src: `${STORAGE}/s1/novaguardianfarm.png`,          season: 1, label: "Nova's Guardian Farm" },
-  { src: `${STORAGE}/s1/novasbase%20(2).png`,           season: 1, label: "Nova's Base"          },
-  { src: `${STORAGE}/s1/Novasbase.png`,                 season: 1, label: "Nova's Base"          },
-  { src: `${STORAGE}/s1/redstonechurch.png`,            season: 1, label: 'Redstone Church'      },
-  { src: `${STORAGE}/s1/redstonekingdom.png`,           season: 1, label: 'Redstone Kingdom'     },
+  { ...gallery(1, 'KysBarns'),           season: 1, label: "KY's Barns"          },
+  { ...gallery(1, 'Kysbase'),            season: 1, label: "KY's Base"            },
+  { ...gallery(1, 'novaguardianfarm'),   season: 1, label: "Nova's Guardian Farm" },
+  { ...gallery(1, 'novasbase2'),         season: 1, label: "Nova's Base"          },
+  { ...gallery(1, 'Novasbase'),          season: 1, label: "Nova's Base"          },
+  { ...gallery(1, 'redstonechurch'),     season: 1, label: 'Redstone Church'      },
+  { ...gallery(1, 'redstonekingdom'),    season: 1, label: 'Redstone Kingdom'     },
   // Season 2
-  { src: `/s2spawne.png`,                               season: 2, label: 'Spawn'                },
-  { src: `${STORAGE}/s2/flyingsbase.png`,               season: 2, label: "Flying's Base"        },
-  { src: `${STORAGE}/s2/flyingstrain.png`,              season: 2, label: "Flying's Train"       },
-  { src: `${STORAGE}/s2/KysBase.png`,                   season: 2, label: "KY's Base"            },
-  { src: `${STORAGE}/s2/kornysbase.png`,                season: 2, label: "Korny's Base"         },
-  { src: `${STORAGE}/s2/NovasBase.png`,                 season: 2, label: "Nova's Base"          },
-  { src: `${STORAGE}/s2/Niovasbase.png`,                season: 2, label: "Niova's Base"         },
-  { src: `${STORAGE}/s2/Turbosbase.png`,                season: 2, label: "Turbo's Base"         },
-  { src: `${STORAGE}/s2/thundersbase.png`,              season: 2, label: "Thunder's Base"       },
-  { src: `${STORAGE}/s2/thundrescanal.png`,             season: 2, label: "Thunder's Canal"      },
-  { src: `${STORAGE}/s2/shutsbase.png`,                 season: 2, label: "Shut's Base"          },
-  { src: `${STORAGE}/s2/nantyscafe.png`,                season: 2, label: "Nanty's Cafe"         },
-  { src: `${STORAGE}/s2/chickenmafiachurch.png`,        season: 2, label: 'Chicken Mafia Church' },
+  { ...gallery(2, 'spawn'),              season: 2, label: 'Spawn'                },
+  { ...gallery(2, 'flyingsbase'),        season: 2, label: "Flying's Base"        },
+  { ...gallery(2, 'flyingstrain'),       season: 2, label: "Flying's Train"       },
+  { ...gallery(2, 'KysBase'),            season: 2, label: "KY's Base"            },
+  { ...gallery(2, 'kornysbase'),         season: 2, label: "Korny's Base"         },
+  { ...gallery(2, 'NovasBase'),          season: 2, label: "Nova's Base"          },
+  { ...gallery(2, 'Turbosbase'),         season: 2, label: "Turbo's Base"         },
+  { ...gallery(2, 'thundersbase'),       season: 2, label: "Thunder's Base"       },
+  { ...gallery(2, 'thundrescanal'),      season: 2, label: "Thunder's Canal"      },
+  { ...gallery(2, 'shutsbase'),          season: 2, label: "Shut's Base"          },
+  { ...gallery(2, 'nantyscafe'),         season: 2, label: "Nanty's Cafe"         },
+  { ...gallery(2, 'chickenmafiachurch'), season: 2, label: 'Chicken Mafia Church' },
   // Season 3
-  { src: `${STORAGE}/s3/AncientChronicle.png`,         season: 3, label: 'Ancient Chronicle'    },
-  { src: `${STORAGE}/s3/CHEOcharitybuild%20(2).png`,   season: 3, label: 'CHEO Charity Build 2' },
-  { src: `${STORAGE}/s3/CHEOcharitybuild.png`,         season: 3, label: 'CHEO Charity Build'   },
-  { src: `${STORAGE}/s3/flying%26novamobfarm.png`,     season: 3, label: "Flying & Nova's Mob Farm" },
-  { src: `${STORAGE}/s3/Greenersbase.png`,             season: 3, label: "Greener's Base"       },
-  { src: `${STORAGE}/s3/Kornysbase.png`,               season: 3, label: "Korny's Base"         },
-  { src: `${STORAGE}/s3/kyscave.png`,                  season: 3, label: "KY's Cave"            },
-  { src: `${STORAGE}/s3/kyspirateloot.png`,            season: 3, label: "KY's Pirate Loot"     },
-  { src: `${STORAGE}/s3/kystower.png`,                 season: 3, label: "KY's Tower"           },
-  { src: `${STORAGE}/s3/NebsBaase.png`,                season: 3, label: "Neb's Base"           },
-  { src: `${STORAGE}/s3/NovasBase.png`,                season: 3, label: "Nova's Base"          },
-  { src: `${STORAGE}/s3/season3event.png`,             season: 3, label: 'Season 3 Event'       },
-  { src: `${STORAGE}/s3/shutsbase.png`,                season: 3, label: "Shut's Base"          },
-  { src: `${STORAGE}/s3/shutslibrary.png`,             season: 3, label: "Shut's Library"       },
-  { src: `${STORAGE}/s3/spawn.png`,                    season: 3, label: 'Spawn'                },
-  { src: `${STORAGE}/s3/TheCaveEscapeshaft.png`,       season: 3, label: 'The Cave Escape Shaft'},
-  { src: `${STORAGE}/s3/theobelisk.png`,               season: 3, label: 'The Obelisk'          },
-  { src: `${STORAGE}/s3/thepostmasters.png`,           season: 3, label: 'The Postmasters'      },
-  { src: `${STORAGE}/s3/WarriorsBase.png`,             season: 3, label: "Warrior's Base"       },
+  { ...gallery(3, 'AncientChronicle'),   season: 3, label: 'Ancient Chronicle'    },
+  { ...gallery(3, 'CHEOcharitybuild2'),  season: 3, label: 'CHEO Charity Build 2' },
+  { ...gallery(3, 'CHEOcharitybuild'),   season: 3, label: 'CHEO Charity Build'   },
+  { ...gallery(3, 'flyingnovamobfarm'),  season: 3, label: "Flying & Nova's Mob Farm" },
+  { ...gallery(3, 'Greenersbase'),       season: 3, label: "Greener's Base"       },
+  { ...gallery(3, 'Kornysbase'),         season: 3, label: "Korny's Base"         },
+  { ...gallery(3, 'kyscave'),            season: 3, label: "KY's Cave"            },
+  { ...gallery(3, 'kyspirateloot'),      season: 3, label: "KY's Pirate Loot"     },
+  { ...gallery(3, 'kystower'),           season: 3, label: "KY's Tower"           },
+  { ...gallery(3, 'NebsBaase'),          season: 3, label: "Neb's Base"           },
+  { ...gallery(3, 'NovasBase'),          season: 3, label: "Nova's Base"          },
+  { ...gallery(3, 'season3event'),       season: 3, label: 'Season 3 Event'       },
+  { ...gallery(3, 'shutsbase'),          season: 3, label: "Shut's Base"          },
+  { ...gallery(3, 'shutslibrary'),       season: 3, label: "Shut's Library"       },
+  { ...gallery(3, 'spawn'),              season: 3, label: 'Spawn'                },
+  { ...gallery(3, 'TheCaveEscapeshaft'), season: 3, label: 'The Cave Escape Shaft'},
+  { ...gallery(3, 'theobelisk'),         season: 3, label: 'The Obelisk'          },
+  { ...gallery(3, 'thepostmasters'),     season: 3, label: 'The Postmasters'      },
+  { ...gallery(3, 'WarriorsBase'),       season: 3, label: "Warrior's Base"       },
   // Season 6
-  { src: `/buffoonskies_1.png`,                         season: 6, label: 'Buffoon Skies'        },
+  { ...gallery(6, 'buffoonskies_1'),     season: 6, label: 'Buffoon Skies'        },
 ];
 
 const SEASONS = [1, 2, 3, 6] as const;
@@ -81,7 +81,7 @@ function GalleryCard({
         <div className="w-full aspect-video bg-slate-800 animate-pulse rounded-xl" />
       )}
       <img
-        src={thumbUrl(item.src)}
+        src={item.thumb}
         alt={item.label}
         loading="lazy"
         decoding="async"
@@ -109,7 +109,7 @@ export default function Gallery() {
     setFailed(prev => new Set(prev).add(src));
 
   const visible = (filter === null ? ITEMS : ITEMS.filter(i => i.season === filter))
-    .filter(i => !failed.has(i.src));
+    .filter(i => !failed.has(i.thumb));
 
   return (
     <div className="min-h-screen bg-slate-950 pt-24 pb-28">
@@ -162,11 +162,11 @@ export default function Gallery() {
         <div className="columns-2 sm:columns-3 lg:columns-4 gap-3">
           {(filter === null ? ITEMS : ITEMS.filter(i => i.season === filter)).map((item, i) => (
             <GalleryCard
-              key={`${item.src}-${i}`}
+              key={`${item.thumb}-${i}`}
               item={item}
               onOpen={() => setLightbox(item)}
-              onFail={() => markFailed(item.src)}
-              failed={failed.has(item.src)}
+              onFail={() => markFailed(item.thumb)}
+              failed={failed.has(item.thumb)}
             />
           ))}
         </div>
@@ -193,7 +193,7 @@ export default function Gallery() {
             onClick={e => e.stopPropagation()}
           >
             <img
-              src={lightbox.src}
+              src={lightbox.full}
               alt={lightbox.label}
               className="w-full max-h-[80vh] object-contain rounded-2xl shadow-2xl"
             />
