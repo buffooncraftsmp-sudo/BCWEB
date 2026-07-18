@@ -30,6 +30,7 @@ const ITEMS = [
   { ...gallery(2, 'shutsbase'),          season: 2, label: "Shut's Base"          },
   { ...gallery(2, 'nantyscafe'),         season: 2, label: "Nanty's Cafe"         },
   { ...gallery(2, 'chickenmafiachurch'), season: 2, label: 'Chicken Mafia Church' },
+  { ...gallery(2, 'greenershypercube'),  season: 2, label: "Greener's Hypercube" },
   // Season 3
   { ...gallery(3, 'AncientChronicle'),   season: 3, label: 'Ancient Chronicle'    },
   { ...gallery(3, 'CHEOcharitybuild2'),  season: 3, label: 'CHEO Charity Build 2' },
