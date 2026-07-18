@@ -50,11 +50,28 @@ const ITEMS = [
   { ...gallery(3, 'theobelisk'),         season: 3, label: 'The Obelisk'          },
   { ...gallery(3, 'thepostmasters'),     season: 3, label: 'The Postmasters'      },
   { ...gallery(3, 'WarriorsBase'),       season: 3, label: "Warrior's Base"       },
+  // Season 4
+  { ...gallery(4, 'FlyingNovaEndProject1'), season: 4, label: "Flying & Nova's End Project" },
+  { ...gallery(4, 'FlyingNovaEndProject2'), season: 4, label: "Flying & Nova's End Project" },
+  { ...gallery(4, 'SpawnPub'),              season: 4, label: 'Spawn Pub'              },
+  { ...gallery(4, 'NovasBase'),             season: 4, label: "Nova's Base"            },
+  { ...gallery(4, 'NovaCitadelChapel'),     season: 4, label: "Nova's Citadel Chapel"  },
+  { ...gallery(4, 'novalibrary'),           season: 4, label: "Nova's Library"         },
+  { ...gallery(4, 'KornysBase'),            season: 4, label: "Korny's Base"           },
+  { ...gallery(4, 'shutsBase'),             season: 4, label: "Shut's Base"            },
+  { ...gallery(4, 'NebsBase'),              season: 4, label: "Neb's Base"             },
+  { ...gallery(4, 'TurboBase'),             season: 4, label: "Turbo's Base"           },
+  { ...gallery(4, 'FlyingsBase'),           season: 4, label: "Flying's Base"          },
+  { ...gallery(4, 'KysBase'),               season: 4, label: "KY's Base"             },
+  { ...gallery(4, 'FlyingsBase2'),          season: 4, label: "Flying's Base"          },
+  { ...gallery(4, 'KysAndThunderView'),     season: 4, label: "KY's & Thunder's View"  },
+  { ...gallery(4, 'ThunderBase'),           season: 4, label: "Thunder's Base"         },
+  { ...gallery(4, 'ThundersVillagers'),     season: 4, label: "Thunder's Villagers"    },
   // Season 6
   { ...gallery(6, 'buffoonskies_1'),     season: 6, label: 'Buffoon Skies'        },
 ];
 
-const SEASONS = [1, 2, 3, 6] as const;
+const SEASONS = [1, 2, 3, 4, 6] as const;
 
 function GalleryCard({
   item,
