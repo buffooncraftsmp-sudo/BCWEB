@@ -8,6 +8,13 @@ function gallery(season: number, slug: string) {
   };
 }
 
+function art(slug: string) {
+  return {
+    thumb: `/gallery/art/${slug}-thumb.webp`,
+    full: `/gallery/art/${slug}-full.webp`,
+  };
+}
+
 const ITEMS = [
   // Season 1
   { ...gallery(1, 'KysBarns'),           season: 1, label: "KY's Barns"          },
@@ -68,11 +75,43 @@ const ITEMS = [
   { ...gallery(4, 'KysAndThunderView'),     season: 4, label: "KY's & Thunder's View"  },
   { ...gallery(4, 'ThunderBase'),           season: 4, label: "Thunder's Base"         },
   { ...gallery(4, 'ThundersVillagers'),     season: 4, label: "Thunder's Villagers"    },
+  // Season 5
+  { ...gallery(5, 'Season5Logo'),        season: 5, label: 'Season 5'            },
+  { ...gallery(5, 'spawn'),              season: 5, label: 'Spawn'               },
+  { ...gallery(5, 'FlyingsBase'),        season: 5, label: "Flying's Base"       },
+  { ...gallery(5, 'FlyingsBase2'),       season: 5, label: "Flying's Base"       },
+  { ...gallery(5, 'FlyingsBase3'),       season: 5, label: "Flying's Base"       },
+  { ...gallery(5, 'FlyingNovasPortal'),  season: 5, label: "Flying & Nova's Portal" },
+  { ...gallery(5, 'NovaBase'),           season: 5, label: "Nova's Base"         },
+  { ...gallery(5, 'GreenersBase'),       season: 5, label: "Greener's Base"      },
+  { ...gallery(5, 'KornysBase'),         season: 5, label: "Korny's Base"        },
+  { ...gallery(5, 'LonesBase'),          season: 5, label: "Lone's Base"         },
+  { ...gallery(5, 'LonesStarterBase'),   season: 5, label: "Lone's Starter Base" },
+  { ...gallery(5, 'LonesMobFarm'),       season: 5, label: "Lone's Mob Farm"     },
+  { ...gallery(5, 'LonesPortal'),        season: 5, label: "Lone's Portal"       },
+  { ...gallery(5, 'ShutsBase'),          season: 5, label: "Shut's Base"        },
+  { ...gallery(5, 'ThundersPub'),        season: 5, label: "Thunder's Pub"      },
+  { ...gallery(5, 'ThundersIronFarm'),   season: 5, label: "Thunder's Iron Farm" },
+  { ...gallery(5, 'RailGun'),            season: 5, label: 'Rail Gun'            },
+  { ...gallery(5, 'TheGildedCastle'),    season: 5, label: 'The Gilded Castle'   },
+  { ...gallery(5, 'TheGildedThroneRoom'),season: 5, label: 'The Gilded Throne Room' },
+  { ...gallery(5, 'HalloweenBuild'),     season: 5, label: 'Halloween Build'     },
+  { ...gallery(5, 'HalloweenMaze'),      season: 5, label: 'Halloween Maze'      },
+  { ...gallery(5, 'TrickOrTreatEvent'),  season: 5, label: 'Trick or Treat Event' },
+  { ...gallery(5, 'MoonEvent'),          season: 5, label: 'Moon Event'          },
+  { ...gallery(5, 'TheDefeatedMoon'),    season: 5, label: 'The Defeated Moon'   },
   // Season 6
   { ...gallery(6, 'buffoonskies_1'),     season: 6, label: 'Buffoon Skies'        },
 ];
 
-const SEASONS = [1, 2, 3, 4, 6] as const;
+const SEASONS = [1, 2, 3, 4, 5, 6] as const;
+
+const ART_ITEMS = [
+  { ...art('Buffooncraft'),  title: 'Buffooncraft',  artist: "Dora's Daughter" },
+  { ...art('Buffoonskies'),  title: 'Buffoonskies',  artist: 'Flying Villager' },
+  { ...art('Tsundere'),      title: 'Tsundere',      artist: 'Flying Villager' },
+  { ...art('Tylone'),        title: 'Tylone',        artist: 'Flying Villager' },
+];
 
 function GalleryCard({
   item,
@@ -118,16 +157,63 @@ function GalleryCard({
   );
 }
 
+function ArtCard({
+  item,
+  onOpen,
+  onFail,
+  failed,
+}: {
+  item: (typeof ART_ITEMS)[number];
+  onOpen: () => void;
+  onFail: () => void;
+  failed: boolean;
+}) {
+  const [loaded, setLoaded] = useState(false);
+
+  if (failed) return null;
+
+  return (
+    <div
+      onClick={onOpen}
+      className="relative break-inside-avoid rounded-xl overflow-hidden cursor-pointer group mb-3"
+    >
+      {!loaded && (
+        <div className="w-full aspect-square bg-slate-800 animate-pulse rounded-xl" />
+      )}
+      <img
+        src={item.thumb}
+        alt={item.title}
+        loading="lazy"
+        decoding="async"
+        onLoad={() => setLoaded(true)}
+        onError={onFail}
+        className={`w-full object-cover group-hover:scale-105 transition-all duration-500 ${
+          loaded ? 'opacity-100' : 'opacity-0 absolute inset-0'
+        }`}
+      />
+      <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+      <div className="absolute bottom-0 left-0 right-0 p-3 translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
+        <p className="font-pixel text-[9px] text-brand-400 tracking-widest">ART</p>
+        <p className="text-xs font-bold text-white mt-0.5">{item.title}</p>
+        <p className="text-[11px] text-slate-400">by {item.artist}</p>
+      </div>
+    </div>
+  );
+}
+
 export default function Gallery() {
-  const [filter, setFilter] = useState<number | null>(null);
+  const [filter, setFilter] = useState<number | null | 'art'>(null);
   const [lightbox, setLightbox] = useState<(typeof ITEMS)[number] | null>(null);
+  const [artLightbox, setArtLightbox] = useState<(typeof ART_ITEMS)[number] | null>(null);
   const [failed, setFailed] = useState<Set<string>>(new Set());
 
   const markFailed = (src: string) =>
     setFailed(prev => new Set(prev).add(src));
 
-  const visible = (filter === null ? ITEMS : ITEMS.filter(i => i.season === filter))
+  const visible = (filter === null ? ITEMS : filter === 'art' ? [] : ITEMS.filter(i => i.season === filter))
     .filter(i => !failed.has(i.thumb));
+
+  const visibleArt = ART_ITEMS.filter(i => !failed.has(i.thumb));
 
   return (
     <div className="min-h-screen bg-slate-950 pt-24 pb-28">
@@ -143,7 +229,7 @@ export default function Gallery() {
         </p>
       </div>
 
-      {/* Season filters */}
+      {/* Filters */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-10">
         <div className="flex flex-wrap gap-2">
           <button
@@ -172,27 +258,58 @@ export default function Gallery() {
               </button>
             );
           })}
+          <button
+            onClick={() => setFilter('art')}
+            className={`px-4 py-2 rounded-full text-sm font-semibold transition-all ${
+              filter === 'art'
+                ? 'bg-brand-500 text-white shadow-lg shadow-brand-500/30'
+                : 'bg-white/5 text-slate-400 hover:text-white hover:bg-white/10 border border-white/8'
+            }`}
+          >
+            Art ({ART_ITEMS.length})
+          </button>
         </div>
       </div>
 
-      {/* Grid */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="columns-2 sm:columns-3 lg:columns-4 gap-3">
-          {(filter === null ? ITEMS : ITEMS.filter(i => i.season === filter)).map((item, i) => (
-            <GalleryCard
-              key={`${item.thumb}-${i}`}
-              item={item}
-              onOpen={() => setLightbox(item)}
-              onFail={() => markFailed(item.thumb)}
-              failed={failed.has(item.thumb)}
-            />
-          ))}
-        </div>
+      {filter === 'art' ? (
+        /* Art grid */
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="columns-2 sm:columns-3 lg:columns-4 gap-3">
+            {ART_ITEMS.map((item, i) => (
+              <ArtCard
+                key={`${item.thumb}-${i}`}
+                item={item}
+                onOpen={() => setArtLightbox(item)}
+                onFail={() => markFailed(item.thumb)}
+                failed={failed.has(item.thumb)}
+              />
+            ))}
+          </div>
 
-        {visible.length === 0 && (
-          <p className="text-center text-slate-500 py-24">No images for this season yet.</p>
-        )}
-      </div>
+          {visibleArt.length === 0 && (
+            <p className="text-center text-slate-500 py-24">No art yet.</p>
+          )}
+        </div>
+      ) : (
+        /* Grid */
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="columns-2 sm:columns-3 lg:columns-4 gap-3">
+            {(filter === null ? ITEMS : ITEMS.filter(i => i.season === filter)).map((item, i) => (
+              <GalleryCard
+                key={`${item.thumb}-${i}`}
+                item={item}
+                onOpen={() => setLightbox(item)}
+                onFail={() => markFailed(item.thumb)}
+                failed={failed.has(item.thumb)}
+              />
+            ))}
+          </div>
+
+          {visible.length === 0 && (
+            <p className="text-center text-slate-500 py-24">No images for this season yet.</p>
+          )}
+        </div>
+      )}
 
       {/* Lightbox */}
       {lightbox && (
@@ -218,6 +335,36 @@ export default function Gallery() {
             <div className="mt-4 text-center">
               <p className="font-pixel text-[10px] text-brand-400 tracking-widest mb-1">SEASON {lightbox.season}</p>
               <p className="text-sm font-bold text-white">{lightbox.label}</p>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Art lightbox */}
+      {artLightbox && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/95 backdrop-blur-sm p-4"
+          onClick={() => setArtLightbox(null)}
+        >
+          <button
+            className="absolute top-5 right-5 w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition-colors"
+            onClick={() => setArtLightbox(null)}
+          >
+            <X className="w-5 h-5" />
+          </button>
+          <div
+            className="relative max-w-5xl w-full"
+            onClick={e => e.stopPropagation()}
+          >
+            <img
+              src={artLightbox.full}
+              alt={artLightbox.title}
+              className="w-full max-h-[80vh] object-contain rounded-2xl shadow-2xl"
+            />
+            <div className="mt-4 text-center">
+              <p className="font-pixel text-[10px] text-brand-400 tracking-widest mb-1">ART</p>
+              <p className="text-sm font-bold text-white">{artLightbox.title}</p>
+              <p className="text-xs text-slate-400 mt-0.5">by {artLightbox.artist}</p>
             </div>
           </div>
         </div>
