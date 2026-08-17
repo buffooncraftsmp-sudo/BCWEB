@@ -13,7 +13,6 @@ const CHANNELS = [
   "flyingvillager",
   "lonestarr_82",
   "princessnebula",
-  "chescas_genie",
   "thunderhand64_gaming",
   "ky_creates",
   "k46sleepwalker",
@@ -22,7 +21,6 @@ const CHANNELS = [
   "callmeevegaming",
   "1playergamer",
   "dorasplorer",
-  "xeska_dbe",
   "angelbyu",
 ];
 
