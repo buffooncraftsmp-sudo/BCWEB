@@ -116,13 +116,6 @@ const BUFFOONS: Buffoon[] = [
     bio: 'Skip joined Buffooncraft in Season 6, coming from Bedrock Edition, and has quickly orientated himself with Java mechanics. Despite the transition, he has adapted fast and is already getting fully immersed in the deeper systems of the game.\n\nWith a strong love of farms, Skip has been diving into Java mechanics and clearly enjoys the challenge of learning and optimising them. His curiosity and willingness to experiment have made him a steadily growing technical presence on the server.\n\nSkip is a lovely, caring person and brings a calm, friendly energy to the community, making him easy to get along with and a welcome part of the Buffoons.',
   },
   {
-    ign: 'Chescas_Genie',
-    displayName: 'Chescas',
-    role: 'The Wildcard Builder',
-    twitchLogin: 'xeska_dbe',
-    bio: 'Chescas joined Buffooncraft in Season 6 and is great fun to be around, always up for a laugh and bringing a light, easygoing energy to the server.\n\nHer building style is eclectic, often shifting from one project to another as inspiration strikes. This variety gives her work a spontaneous and creative feel, with each build reflecting a different idea or direction.\n\nWith her humour, flexibility, and willingness to dive into new projects, Chescas adds a lively and unpredictable spark to Buffooncraft.',
-  },
-  {
     ign: 'AngelByU',
     displayName: 'Angel',
     role: 'The Rollercoaster Architect',
