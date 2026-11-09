@@ -1,5 +1,5 @@
 import { CSSProperties } from 'react';
-import { Download, HardDrive, ExternalLink } from 'lucide-react';
+import { Download, HardDrive, ExternalLink, Lock } from 'lucide-react';
 
 interface Season {
   number: number;
@@ -57,6 +57,15 @@ const SEASONS: Season[] = [
   },
   {
     number: 6,
+    label: 'S6',
+    title: 'Season 6',
+    logo: '/BC6_logo.png',
+    description: 'The longest Buffooncraft season yet - lasting just over 2 years! The season was centred around Port Droste.',
+    fileSize: undefined,
+    downloadUrl: 'https://drive.google.com/file/d/1R-VJ36srRViU9EoEoS3t_pdf5LMi0Uqq/view?usp=sharing',
+  },
+  {
+    number: 7,
     label: 'S6',
     title: 'Buffoonskies',
     logo: '/BC_Obsidian_Season_Icon_Notext_-_Copy.png',
